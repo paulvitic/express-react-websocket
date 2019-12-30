@@ -1,4 +1,4 @@
-# Express React ad Websocket
+# Express React and Websocket
 
 Sample application with Express React ad Websocket.
 
