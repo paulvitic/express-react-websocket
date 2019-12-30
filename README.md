@@ -1,6 +1,6 @@
 # Express React ad Websocket
 
-App with express-no-stress
+Sample application with Express React ad Websocket.
 
 ## Quick Start
 
@@ -85,10 +85,6 @@ npm run dev:debug
 ```
 npm run test:debug
 ```
-
-#### Debug with VSCode
-
-Add these [contents](https://github.com/cdimascio/generator-express-no-stress/blob/next/assets/.vscode/launch.json) to your `.vscode/launch.json` file
 
 ## Resources
 
