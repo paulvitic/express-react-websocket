@@ -1,10 +1,10 @@
-import L from '../../common/logger'
+import LogFactory from "../../app/LogFactory";
 
 let id = 0;
 interface Example {
   id: number,
   name: string
-};
+}
 
 const examples: Example[] = [
     { id: id++, name: 'example 0' }, 
@@ -12,23 +12,24 @@ const examples: Example[] = [
 ];
 
 export class ExamplesService {
+  private readonly log = LogFactory.get(ExamplesService.name);
   all(): Promise<Example[]> {
-    L.info(examples, 'fetch all examples');
+    this.log.info('fetch all examples');
     return Promise.resolve(examples);
   }
 
   byId(id: number): Promise<Example> {
-    L.info(`fetch example with id ${id}`);
+    this.log.info(`fetch example with id ${id}`);
     return this.all().then(r => r[id])
   }
 
   create(name: string): Promise<Example> {
-    L.info(`create example with name ${name}`);
+    this.log.info(`create example with name ${name}`);
     const example: Example = {
       id: id++,
       name
     };
-    examples.push(example)
+    examples.push(example);
     return Promise.resolve(example);
   }
 }
