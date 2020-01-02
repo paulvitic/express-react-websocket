@@ -17,6 +17,7 @@ export interface Environment {
     SWAGGER_API_SPEC: string,
     DATA_COLLECTION_CRON: string,
     API_PREFIX: string,
+    SESSION_COOKIE_TTL: number
     //JIRA_URL: string,
     //JIRA_USER: string,
     //JIRA_API_TOKEN: string
@@ -58,6 +59,7 @@ export default async function config(): Promise<Environment> {
         SWAGGER_API_SPEC: getStringValueOrThrow(process.env, 'SWAGGER_API_SPEC'),
         DATA_COLLECTION_CRON: process.env.DATA_COLLECTION_CRON || '* * * * *',
         API_PREFIX: process.env.API_PREFIX || '/api',
+        SESSION_COOKIE_TTL: process.env.SESSION_COOKIE_TTL ? parseInt(process.env.SESSION_COOKIE_TTL) : 1000 * 60 * 60 * 24,
         //JIRA_URL: getStringValueOrThrow(process.env, 'JIRA_URL'),
         //JIRA_USER: getStringValueOrThrow(process.env, 'JIRA_USER'),
         //JIRA_API_TOKEN: getStringValueOrThrow(process.env, 'JIRA_API_TOKEN'),

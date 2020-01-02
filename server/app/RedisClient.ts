@@ -9,7 +9,9 @@ export default class RedisClient {
 
     constructor(private readonly host: string,
                 private readonly port:number,
-                password: string) {
+                password: string,
+                private readonly sessionCookieTtl: number,
+                ) {
         this.redisClient = redis.createClient({host, port, password});
     }
 
@@ -35,7 +37,7 @@ export default class RedisClient {
             port: this.port,
             db: 0,
             client: this.redisClient,
-            ttl:  3600000
+            ttl:  this.sessionCookieTtl
         });
     };
 

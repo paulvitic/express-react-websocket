@@ -37,7 +37,8 @@ export default class App {
         new RedisClient(
             this.env.REDIS_HOST,
             this.env.REDIS_PORT,
-            this.env.REDIS_PASS
+            this.env.REDIS_PASS,
+            this.env.SESSION_COOKIE_TTL
         ).init()
             .then((client) => {
             this.context.clients.set('redisClient', client);
@@ -51,6 +52,7 @@ export default class App {
     private initServer = () => {
         const server = new ExpressServer(
             this.env.PORT,
+            this.env.SESSION_COOKIE_TTL,
             this.context.clients.get('redisClient').sessionStore());
 
         this.context.server = server.listen();

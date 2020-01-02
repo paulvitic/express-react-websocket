@@ -28,7 +28,9 @@ function addWebsocket(): Server {
 export default class ExpressServer {
   private readonly log = LogFactory.get(ExpressServer.name);
 
-  constructor(private readonly port: number, sessionStore: Store) {
+  constructor(private readonly port: number,
+              private readonly sessionCookieTtl: number,
+              sessionStore: Store) {
     app.set('sessionStore', sessionStore);
     app.enable('case sensitive routing');
     app.enable('strict routing');
@@ -39,7 +41,7 @@ export default class ExpressServer {
 
     app.use(cors());
     app.use(cookieParser());
-    app.use(session(sessionConfig(app)));
+    app.use(session(sessionConfig(app, sessionCookieTtl)));
     app.use(sessionCounter(this.log));
 
     app.use(express.static(`${path.normalize(__dirname + '/../..')}/dist/static`));

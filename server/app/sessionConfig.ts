@@ -1,31 +1,16 @@
 import {Application} from "express";
 import uuid from "uuid";
 
-export default (app: Application) => {
-
-/*    const sess ={
-        store: app.get('sessionStore'),
-        secret: process.env.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: true,
-        genid: function(req) {
-            return uid.sync(18) // use UUIDs for session IDs
-        },
-        cookie: {
-            maxAge: 360000,
-            secure: false
-        }
-    };*/
+export default (app: Application, sessionCookieTtl: number) => {
 
     const sess = {
         name: 'app.sid',
         secret: process.env.SESSION_SECRET,
         store: app.get('sessionStore'),
         cookie: {
-            expires: new Date(new Date().getTime() + 360000000),
             httpOnly: true,
             secure: false,
-            maxAge: 360000000
+            maxAge: sessionCookieTtl
         },
         genid: function(req) {
             return uuid.v4();
@@ -41,6 +26,4 @@ export default (app: Application) => {
     }
 
     return sess;
-
-    //app.use(session(sess));
 };
