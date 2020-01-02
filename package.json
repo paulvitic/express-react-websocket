@@ -25,6 +25,8 @@
     "ws": "^7.2.1",
     "redis": "^2.8.0",
     "connect-redis": "^4.0.3",
+    "pg": "^7.17.0",
+    "amqplib": "^0.5.5",
     "swagger-express-middleware": "^2.0.4"
   },
   "devDependencies": {
@@ -38,6 +40,8 @@
     "@types/ws": "^6.0.4",
     "@types/redis": "^2.8.14",
     "@types/connect-redis": "^0.0.13",
+    "@types/pg": "^7.14.0",
+    "@types/amqplib": "^0.5.13",
     "@typescript-eslint/eslint-plugin": "^2.7.0",
     "@typescript-eslint/parser": "^2.7.0",
     "chai": "^4.2.0",
