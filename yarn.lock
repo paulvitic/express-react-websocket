@@ -1179,6 +1179,11 @@ expand-brackets@^2.1.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
+express-list-middleware@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/express-list-middleware/-/express-list-middleware-1.0.1.tgz#bdcefba600508ec887bc31bae982515e70f5e2c7"
+  integrity sha1-vc77pgBQjsiHvDG66YJRXnD14sc=
+
 express-session@^1.17.0:
   version "1.17.0"
   resolved "https://registry.yarnpkg.com/express-session/-/express-session-1.17.0.tgz#9b50dbb5e8a03c3537368138f072736150b7f9b3"

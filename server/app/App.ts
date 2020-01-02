@@ -1,4 +1,4 @@
-import ExpressServer from "./Server";
+import ExpressServer from "./ExpressServer";
 import LogFactory from "./LogFactory";
 import config, {Environment} from "./config";
 import RedisClient from "./RedisClient";

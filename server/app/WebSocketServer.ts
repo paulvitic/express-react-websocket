@@ -28,7 +28,6 @@ export default class WebSocketServer {
         this.log.info(`received: ${message}`);
         if (this.shouldBroadCast(message)) {
             this.broadCast(ws, message);
-
         } else {
             this.log.info(`received: ${message}`);
             ws.send(`Hello, you sent -> ${message}`);

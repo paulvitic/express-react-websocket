@@ -1,8 +1,7 @@
 import {Application} from "express";
-import session from "express-session";
 import uuid from "uuid";
 
-const sessionConfig = (app: Application) => {
+export default (app: Application) => {
 
 /*    const sess ={
         store: app.get('sessionStore'),
@@ -19,12 +18,12 @@ const sessionConfig = (app: Application) => {
     };*/
 
     const sess = {
-        name: 'amp',
+        name: 'app.sid',
         secret: process.env.SESSION_SECRET,
         store: app.get('sessionStore'),
         cookie: {
             expires: new Date(new Date().getTime() + 360000000),
-            httpOnly: false,
+            httpOnly: true,
             secure: false,
             maxAge: 360000000
         },
@@ -33,7 +32,7 @@ const sessionConfig = (app: Application) => {
         },
         saveUninitialized: true,
         resave: false,
-        rolling: true
+        rolling: false
     };
 
     if (app.get('env') === 'production') {
@@ -41,8 +40,7 @@ const sessionConfig = (app: Application) => {
         sess.cookie.secure = true // serve secure cookies
     }
 
-    app.use(session(sess));
+    return sess;
+
+    //app.use(session(sess));
 };
-
-export default sessionConfig;
-

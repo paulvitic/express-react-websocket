@@ -1,25 +1,23 @@
 import path from 'path';
-import middleware from 'swagger-express-middleware';
-import { Application } from 'express';
-import errorHandler from '../api/middlewares/error.handler';
+import swaggerMiddleware from 'swagger-express-middleware';
+import {Application, NextFunction, Request, Response} from 'express';
 
-export default function (app: Application): Promise<void> {
+const apiDocsPath = "/api-explorer/";
+
+export default function (app: Application): Promise<Application> {
+
   return new Promise((resolve, reject) => {
-    middleware(path.join(__dirname, 'api.yml'), app, function(err: Error, middleware) {
+    swaggerMiddleware(path.join(__dirname, 'api.yml'), app, function(err: Error, swagger) {
       if (err) {
         return reject(err);
       }
-      // Enable Express' case-sensitive and strict options
-      // (so "/entities", "/Entities", and "/Entities/" are all different)
-      app.enable('case sensitive routing');
-      app.enable('strict routing');
 
-      app.use(middleware.metadata());
-      app.use(middleware.files(app, {
+      app.use(swagger.metadata());
+      app.use(swagger.files(app, {
         apiPath: process.env.SWAGGER_API_SPEC,
       }));
 
-      app.use(middleware.parseRequest({
+/*      app.use(swagger.parseRequest({
         // Configure the cookie parser to use secure cookies
         cookie: {
           secret: process.env.SESSION_SECRET
@@ -28,17 +26,14 @@ export default function (app: Application): Promise<void> {
         json: {
           limit: process.env.REQUEST_LIMIT
         }
-      }));
+      }));*/
 
       // These two middleware don't have any options (yet)
       app.use(
-        middleware.CORS(),
-        middleware.validateRequest());
+          swagger.CORS(),
+          swagger.validateRequest());
 
-      // eslint-disable-next-line no-unused-vars, no-shadow
-      app.use(errorHandler);
-
-      resolve();
+      resolve(app);
     });
   });
 }
