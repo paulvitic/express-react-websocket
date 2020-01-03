@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 import http, {Server} from 'http';
 import cors from 'cors';
 import os from 'os';
-import installApiDocs from './swagger';
+import installApiDocs from './apiDoc';
 import cookieParser from 'cookie-parser';
 
 import sessionConfig from "./sessionConfig";
@@ -17,7 +17,6 @@ import errorHandler from "./errorHandler";
 import sessionCounter from "./sessionCounter";
 
 const app = express();
-const exit = process.exit;
 
 function addWebsocket(): Server {
   const server = http.createServer(app);
@@ -51,21 +50,22 @@ export default class ExpressServer {
     routes(app);
   }
 
-  listen = (): ExpressServer => {
+  listen = (): Promise<ExpressServer> => {
     // log middleware
     require('express-list-middleware')(app).forEach((m)=> {
       this.log.info(m);
     });
 
-    installApiDocs(app).then(() => {
-      addWebsocket().listen(this.port, () => {
-        this.log.info(`up and running in ${process.env.NODE_ENV || 'development'} @: ${os.hostname()} on port: ${this.port}}`)
+    return new Promise((resolve, reject) => {
+      installApiDocs(app).then(() => {
+        addWebsocket().listen(this.port, () => {
+          this.log.info(`up and running in ${process.env.NODE_ENV || 'development'} @: ${os.hostname()} on port: ${this.port}}`);
+          resolve(this);
+        });
+      }).catch(e => {
+        this.log.error(`Error while calling Server listen : ${e}`);
+        reject(e);
       });
-    }).catch(e => {
-      this.log.error(`Error while calling Server listen : ${e}`);
-      exit(1)
-    });
-
-    return this;
+    })
   }
 }

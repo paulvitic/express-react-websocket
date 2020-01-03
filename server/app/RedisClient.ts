@@ -5,7 +5,7 @@ import LogFactory from "./LogFactory";
 
 export default class RedisClient {
     private readonly log = LogFactory.get(RedisClient.name);
-    private redisClient: Client;
+    private readonly redisClient: Client;
 
     constructor(private readonly host: string,
                 private readonly port:number,
@@ -16,18 +16,19 @@ export default class RedisClient {
     }
 
     public init = (): Promise<RedisClient> => {
-        this.log.info('initializing redis');
-        this.redisClient.on('error', (err)=> {
-            this.log.error('could not connect ', err);
-        });
-
-        this.redisClient.on('connect', ()=> {
-            this.log.info('Redis connected');
-        });
+        this.log.info(`initializing @${this.host}:${this.port}`);
 
         return new Promise<RedisClient>((resolve, reject) => {
-           resolve(this);
-        })
+            this.redisClient.on('error', (err=> {
+                this.log.error('could not connect ', err);
+                reject(err);
+            }));
+
+            this.redisClient.on('connect', ()=> {
+                this.log.info(`connected @${this.host}:${this.port}`);
+                resolve(this);
+            });
+        });
     };
 
     public sessionStore = (): RedisStore => {
