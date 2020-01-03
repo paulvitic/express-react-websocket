@@ -13,9 +13,7 @@ export default function (app: Application): Promise<Application> {
       }
 
       app.use(swagger.metadata());
-      app.use(swagger.files(app, {
-        apiPath: process.env.SWAGGER_API_SPEC,
-      }));
+      app.use(swagger.files(app, {apiPath: process.env.SWAGGER_API_SPEC}));
 
 /*      app.use(swagger.parseRequest({
         // Configure the cookie parser to use secure cookies

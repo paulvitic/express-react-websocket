@@ -94,7 +94,7 @@ export default class App {
                 this.env.PORT,
                 this.env.SESSION_COOKIE_TTL,
                 this.context.clients.get('redisClient').sessionStore())
-                .listen()
+                .init()
                 .then((server)=> {
                     this.context.server = server;
                 }).catch(err => {

@@ -1,7 +1,9 @@
 import {NextFunction, Request, Response} from "express";
-import { Logger } from "winston";
+import LogFactory from "./LogFactory";
 
-export default function sessionCounter(log: Logger) {
+const log = LogFactory.get("sessionCounter");
+
+export default function sessionCounter() {
     return (req: Request, res: Response, next: NextFunction) => {
         if (req.session.views) {
             req.session.views++;

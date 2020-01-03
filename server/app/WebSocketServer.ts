@@ -10,18 +10,16 @@ export default class WebSocketServer {
 
     constructor(server: HttpServer) {
         this.wss = new WebSocket.Server({ server });
-        this.init();
     }
 
-    private init() {
-        this.onConnection();
-    }
-
-    private onConnection = () => {
-        this.wss.on('connection', (ws: WebSocket) => {
-            ws.on('message', (message: string) => this.onMessage(ws, message));
-            ws.send('Hi there, I am a WebSocket server');
-        });
+    init = (): Promise<WebSocketServer> => {
+        return new Promise<WebSocketServer>((resolve, reject) => {
+            this.wss.on('connection', (ws: WebSocket) => {
+                ws.on('message', (message: string) => this.onMessage(ws, message));
+                ws.send('Hi there, I am a WebSocket server');
+            });
+            resolve(this);
+        })
     };
 
     private onMessage = (ws: WebSocket, message: string) => {

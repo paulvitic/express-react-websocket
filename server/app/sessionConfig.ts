@@ -1,16 +1,16 @@
 import {Application} from "express";
 import uuid from "uuid";
 
-export default (app: Application, sessionCookieTtl: number) => {
+export default (app: Application) => {
 
     const sess = {
         name: 'app.sid',
         secret: process.env.SESSION_SECRET,
         store: app.get('sessionStore'),
         cookie: {
-            httpOnly: true,
+            httpOnly: false,
             secure: false,
-            maxAge: sessionCookieTtl
+            maxAge: app.get("sessionCookieTtl")
         },
         genid: function(req) {
             return uuid.v4();
