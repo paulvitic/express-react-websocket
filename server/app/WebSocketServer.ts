@@ -16,19 +16,19 @@ export default class WebSocketServer {
         return new Promise<WebSocketServer>((resolve, reject) => {
             this.wss.on('connection', (ws: WebSocket) => {
                 ws.on('message', (message: string) => this.onMessage(ws, message));
-                ws.send('Hi there, I am a WebSocket server');
+                ws.send('server-connection: my instance id');
             });
             resolve(this);
         })
     };
+
 
     private onMessage = (ws: WebSocket, message: string) => {
         this.log.info(`received: ${message}`);
         if (this.shouldBroadCast(message)) {
             this.broadCast(ws, message);
         } else {
-            this.log.info(`received: ${message}`);
-            ws.send(`Hello, you sent -> ${message}`);
+            ws.send(`action: ${message}`);
         }
     };
 

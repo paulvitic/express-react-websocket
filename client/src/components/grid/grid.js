@@ -67,6 +67,7 @@ const Link = styled.a`
 `;
 
 const Grid = () => {
+    console.log("re-rendering");
     return (
         <div>
             <Header>

@@ -2,7 +2,21 @@ import React from 'react';
 import { createGlobalStyle } from "styled-components";
 import Grid from "./components/grid";
 import {StateProvider} from "./state";
-import {mainReducer} from "./reducers";
+import Cookie from "js-cookie";
+
+const sid = () => {
+    return Cookie.get("app.sid")
+};
+
+const initialState = {
+    sid: sid(),
+    theme: { primary: 'blue' },
+    prodDevProjects: [{
+        id: "",
+        name: "",
+        startDate: ""
+    }]
+};
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -19,13 +33,8 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const App = () => {
-    const initialState = {
-        theme: { primary: 'blue' }
-    };
-
     return(
-        <StateProvider initialState={initialState}
-                       reducer={mainReducer} >
+        <StateProvider initialState={initialState}>
             <GlobalStyle/>
             <Grid/>
         </StateProvider>

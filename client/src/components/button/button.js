@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from "styled-components";
 import { useStateValue } from '../../state';
+import { DO_NOTHING, CHANGE_THEME } from '../../reducers/actionTypes';
 
 const StyledButton = styled.button`
     background-color: ${props => props.color};
@@ -9,20 +10,13 @@ const StyledButton = styled.button`
 const Button = () => {
     const [{ theme }, dispatch] = useStateValue();
 
-    console.log("at button theme is:");
-    console.log(theme);
+    console.log(`theme is ${JSON.stringify(theme)}`);
 
     return (
         <StyledButton
             color={theme.primary}
-            onMouseOut={() => dispatch({
-                type: 'changeTheme',
-                newTheme: { primary: 'blue'}
-            })}
-            onClick={() => dispatch({
-                type: 'changeTheme',
-                newTheme: { primary: 'red'}
-            })}
+            onMouseOut={() => dispatch(theme.primary==='blue'? {type:DO_NOTHING} : {type:CHANGE_THEME, payload:'blue'})}
+            onClick={() => dispatch({type:CHANGE_THEME, payload:'red'})}
         >
             Make me blue!
         </StyledButton>

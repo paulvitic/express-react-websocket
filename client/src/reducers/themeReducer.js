@@ -1,14 +1,14 @@
-export const themeReducer = (currentTheme, action) => {
+import { CHANGE_THEME } from "./actionTypes"
 
-    console.log("at theme reducer action is:");
-    console.log(action);
-    console.log("at theme reducer state is:");
-    console.log(currentTheme);
-
+export const themeReducer = (state, action) => {
+    console.log(`state is ${JSON.stringify(state)}, action is ${JSON.stringify(action)}`);
     switch (action.type) {
-        case 'changeTheme':
-            return action.newTheme;
+        case CHANGE_THEME:
+            return {
+                ...state,
+                primary: action.payload
+            };
         default:
-            return currentTheme;
+            return state;
     }
 };
