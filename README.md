@@ -98,4 +98,5 @@ npm run test:debug
 * [WebSocket + Node.js + Express](https://medium.com/factory-mind/websocket-node-js-express-step-by-step-using-typescript-725114ad5fe4)
 * [Redux Websocket integration](https://medium.com/@ianovenden/redux-websocket-integration-c1a0d22d3189)
 * [Express session with Redis](https://codeforgeek.com/using-redis-to-handle-session-in-node-js/)
+* [Express React server-sent-events](https://alligator.io/nodejs/server-sent-events-build-realtime-app/)
 

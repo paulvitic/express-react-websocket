@@ -16,7 +16,7 @@ export default class WebSocketServer {
         return new Promise<WebSocketServer>((resolve, reject) => {
             this.wss.on('connection', (ws: WebSocket) => {
                 ws.on('message', (message: string) => this.onMessage(ws, message));
-                ws.send('server-connection: my instance id');
+                ws.send(JSON.stringify({type: "SERVER_CONNECTION", payload: "server instance id"}));
             });
             resolve(this);
         })
@@ -25,22 +25,19 @@ export default class WebSocketServer {
 
     private onMessage = (ws: WebSocket, message: string) => {
         this.log.info(`received: ${message}`);
-        if (this.shouldBroadCast(message)) {
-            this.broadCast(ws, message);
+        const action = JSON.parse(message);
+        if (action.type === "BROADCAST") {
+            this.broadCast(ws, action.payload);
         } else {
-            ws.send(`action: ${message}`);
+            ws.send(JSON.stringify({type: "CHANGE_THEME", payload: "green"}));
         }
-    };
-
-    private shouldBroadCast = (message: string): boolean=> {
-        return this.broadcastRegex.test(message)
     };
 
     private broadCast = (sender: WebSocket, message: string) => {
         this.wss.clients
             .forEach(client => {
                 if (client != sender) {
-                    client.send(`Hello, broadcast message -> ${message}`);
+                    client.send(JSON.stringify({type: "BROADCAST", payload: message}));
                 }
             });
     }

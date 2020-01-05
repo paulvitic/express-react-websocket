@@ -15,7 +15,7 @@ const Button = () => {
     return (
         <StyledButton
             color={theme.primary}
-            onMouseOut={() => dispatch(theme.primary==='blue'? {type:DO_NOTHING} : {type:CHANGE_THEME, payload:'blue'})}
+            onMouseOut={() => dispatch(theme.primary==='blue'? {type:DO_NOTHING, payload:'button is blue'} : {type:CHANGE_THEME, payload:'blue'})}
             onClick={() => dispatch({type:CHANGE_THEME, payload:'red'})}
         >
             Make me blue!

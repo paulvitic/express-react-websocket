@@ -1,6 +1,8 @@
 import React, {createContext, useCallback, useContext, useReducer, useMemo} from 'react';
 import {mainReducer} from "../reducers";
 import {createSocket} from "./webSocket";
+import Cookie from "js-cookie";
+import {CHANGE_THEME, DO_NOTHING} from "../reducers/actionTypes";
 
 const StateContext = createContext();
 
@@ -8,19 +10,18 @@ const StateContext = createContext();
 // and returns the current state paired with a dispatch method.
 export const StateProvider = ({initialState, children}) => {
     console.log("state provider invoked.");
-    const [state, dispatch] = useReducer(mainReducer, initialState);
 
-    useMemo(() => {
-            console.log("use memo called");
-            createSocket(dispatch);
-        }
-        , [dispatch]
-    );
+    const ws = useMemo(() => {
+        console.log("invoked useMemo create web socket");
+        return createSocket();
+    }, []);
 
-/*    const push = useCallback(() => {
-        console.log("use callback called");
-        createSocket(dispatch);
-    }, [sid]);*/
+    const [state, dispatch] = useReducer(mainReducer(ws), initialState);
+
+    useMemo (()=> {
+        console.log("invoked useMemo ws on message");
+        ws.onmessage(dispatch);
+    }, [ws, dispatch]);
 
     return (
         <StateContext.Provider value={[state, dispatch]}>
