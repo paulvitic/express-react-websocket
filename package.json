@@ -23,7 +23,7 @@
     "express-list-middleware": "^1.0.1",
     "cors": "^2.8.5",
     "ws": "^7.2.1",
-    "redis": "^2.8.0",
+    "redis": "^3.1.1",
     "connect-redis": "^4.0.3",
     "pg": "^7.17.0",
     "amqplib": "^0.5.5",
